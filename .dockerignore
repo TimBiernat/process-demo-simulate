@@ -1,0 +1,9 @@
+node_modules
+npm-debug.log
+k8s
+*.png
+src
+test
+*.yaml
+tslint.json
+tsconfig.json

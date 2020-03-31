@@ -1,0 +1,9 @@
+control system development:
+
+1. deploy standard node-red container
+2. add required nodes to palette, themes, config; wire up and test flows 
+3. export all to flows.json, add to github project
+4. docker build custom node-red image with flows
+5. push to docker registry
+6. k8s deploy 
+7. repeat for additional controllers and UIs

@@ -1,0 +1,44 @@
+k8s cluster on fitlets, fedora 31:
+
+sudo hostnamectl set-hostname fitlet2-x
+
+disable firewall
+  sudo systemctl disable firewalld
+
+(per http://ahadas.com/kubernetes-on-fedora-31/)
+(skip steps with --exec-opt native.cgroupdriver=systemd, weave-net)
+
+kubeadm init --pod-network-cidr=10.0.0.0/16
+
+kubeadm join 192.168.86.20:6443 --token ...
+
+mkdir -p $HOME/.kube
+cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+chown $(id -u):$(id -g) $HOME/.kube/config
+
+scp config from master to local admin machine (.kube/config) for remote kubectl use
+  cd .kube
+   scp user@node-host/config .
+
+(https://docs.projectcalico.org/getting-started/kubernetes/quickstart)
+kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+
++++
+
+setup k8s dashboard:
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta8/aio/deploy/recommended.yaml
+
+dashboard auth (service account token):
+kubectl create -n kubernetes-dashboard serviceaccount admin 
+kubectl create clusterrolebinding dashboard-admin -n kubernetes-dashboard --clusterrole=cluster-admin --serviceaccount=kubernetes-dashboard:admin
+kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | grep admin | awk '{print $1}')
+
+change kubernetes dashboard deployment to disable login timeout:
+(problem, this killed the dashboard! -  kubectl delete deployment kubernetes-dashboard)
+containers:
+        - name: kubernetes-dashboard
+          image: 'kubernetesui/dashboard:v2.0.0-beta8'
+          args:
+            - '--auto-generate-certificates'
+            - '--namespace=kubernetes-dashboard'
+            - '--token-ttl'

@@ -1,0 +1,23 @@
+simulator container:
+  docker build -t tbiernat/process-demo-simulate . 
+  docker push tbiernat/process-demo-simulate
+  kubectl apply -f k8s/process-demo-simulate-deployment.yaml
+
+mqtt container:
+  kubectl apply -f mqtt-deployment.yaml
+  kubectl expose deployment mqtt-deployment --type=NodePort --name=mqtt
+  kubectl apply -f k8s/mqtt-ingress.yaml (for testing)
+  kubectl get svc
+
++++
+
+setup affinities/taints:
+kubectl label nodes fitlet2-1 dedicated=master
+change master node to allow limited scheduling:
+  taints:
+    - key: node-role.kubernetes.io/master
+      effect: PreferNoSchedule
+
+target deployment to master:
+      nodeSelector:
+        dedicated: master
