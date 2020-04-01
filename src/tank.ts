@@ -7,9 +7,9 @@ const qos0NoRetainOpts = { qos: qos0, retained: false };
 const clientId = "simulation_" + Math.random().toString(16).substr(2, 8);
 
 /**
- * TBrew kettle simulation based on simple physical mnodel.
+ * Brew kettle simulation based on simple physical mnodel.
  * Includes temperature sensor and heater.
- * All communications pubsub via msg broker.
+ * All communications pubsub via MQTT.
  */
 export default class Tank {
     heat: number = 0;  // 1W: 0.00095 BTU/s --> 0.000113F for 1gal in 1s
