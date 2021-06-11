@@ -6,6 +6,7 @@ simulator container:
   kubectl apply -f k8s/process-demo-simulate-deployment.yaml
 
 mqtt container:
+  kubectl create configmap mqtt-cfg --from-file=process-demo-simulate/k8s/config/
   kubectl apply -f mqtt-deployment.yaml
   kubectl expose deployment mqtt-deployment --type=NodePort --name=mqtt
   kubectl apply -f k8s/mqtt-ingress.yaml (for testing)
