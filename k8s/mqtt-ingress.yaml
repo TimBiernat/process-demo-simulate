@@ -1,8 +1,10 @@
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: mqtt-ingress
 spec:
-  backend:
-    serviceName: mqtt
-    servicePort: 1883
+  defaultBackend:
+    service:
+      name: mqtt
+      port:
+        number: 1883

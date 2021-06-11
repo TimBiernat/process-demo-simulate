@@ -13,7 +13,7 @@ spec:
         app: mqtt
     spec:
       nodeSelector:
-        dedicated: master
+        node-role.kubernetes.io/master: "true"
       containers:
       - name: mqtt
         image: eclipse-mosquitto 

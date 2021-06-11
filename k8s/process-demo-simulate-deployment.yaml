@@ -13,7 +13,7 @@ spec:
         app: process-demo-simulate
     spec:
       nodeSelector:
-        dedicated: master
+        node-role.kubernetes.io/master: "true"
       containers:
       - name: process-demo-simulate
         image: tbiernat/process-demo-simulate 
