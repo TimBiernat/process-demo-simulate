@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "dotenv": "^8.6.0",
-    "mqtt": "^3.0.0",
+    "mqtt": "^4.3.7",
     "winston": "^3.3.3"
   },
   "devDependencies": {
